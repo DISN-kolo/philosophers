@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 15:08:08 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/07 15:32:11 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/07 16:19:06 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
  * we're not allowed to use the whole package (bs of the printf? thread safety?
  * but nothing prevents us from copying random stuff from it y'know. tee-hee
  */
+int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\r'
+		|| c == '\f' || c == '\v');
+}
+
 int	ft_strncmp(char *s1, char *s2, size_t n)
 {
 	int		p;

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:40:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/07 15:57:31 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/07 17:32:59 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,40 @@
 
 //	in src/input_parser_utils.c
 int		ft_nbrlen(int x);
-char	*ft_itoa(int n);
-int		ft_strncmp(char *s1, char *s2, size_t n);
+int		ft_isspace(char c);
+//	in src/input_parser_utils_2.c
+int		maxint_passed_checker(char *guy);
 
 int	ft_isdigit(char c)
 {
 	return (c >= '0' && c <= '9');
 }
 
-int	maxint_passed_checker(char *guy)
+int	guy_checker_internal(char *guy, int j)
 {
-	char	*strmaxint;
+	int	count;
 
-	strmaxint = ft_itoa(INT_MAX);
-	return (ft_strncmp(strmaxint, guy, ft_nbrlen(INT_MAX)) < 0);
+	count = 0;
+	j += (guy[j] == '+');
+	while (guy[j] && ft_isdigit(guy[j]))
+	{
+		if (count > ft_nbrlen(INT_MAX))
+			return (1);
+		else if (count == ft_nbrlen(INT_MAX))
+		{
+			if (maxint_passed_checker(guy + j - count))
+				return (1);
+		}
+		j++;
+		count++;
+	}
+	while (guy[j])
+	{
+		if (!ft_isspace(guy[j]))
+			return (1);
+		j++;
+	}
+	return (0);
 }
 
 int	guy_checker(char *guy)
@@ -36,20 +56,15 @@ int	guy_checker(char *guy)
 	int	j;
 
 	j = 0;
-	while (guy[j])
-	{
-		if (!ft_isdigit(guy[j]))
-			return (1);
-		if (j > ft_nbrlen(INT_MAX))
-			return (1);
-		else if (j == ft_nbrlen(INT_MAX))
-		{
-			if (maxint_passed_checker(guy))
-				return (1);
-		}
+	while (ft_isspace(guy[j]))
 		j++;
-	}
-	return (0);
+	if (!guy[j])
+		return (1);
+	if (guy[j] != '+' && !ft_isdigit(guy[j]))
+		return (1);
+	else if (guy[j] == '+' && !ft_isdigit(guy[j + 1]))
+		return (1);
+	return (guy_checker_internal(guy, j));
 }
 
 int	argv_checker(int argc, char **argv)
