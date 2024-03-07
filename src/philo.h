@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/07 13:59:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/07 15:58:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ struct s_data
 	long	time_to_die;
 	long	time_to_eat;
 	long	time_to_sleep;
-	long	meals_limt_number;
+	long	meals_limit_number;
 	long	start_simulation;
 	int		end_simulation;
 	t_fork	*forks;
