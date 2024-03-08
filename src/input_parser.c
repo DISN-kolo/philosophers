@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:40:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/07 17:32:59 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 12:08:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,11 @@ int	guy_checker_internal(char *guy, int j)
 	int	count;
 
 	count = 0;
-	j += (guy[j] == '+');
 	while (guy[j] && ft_isdigit(guy[j]))
 	{
-		if (count > ft_nbrlen(INT_MAX))
+		if (count >= ft_nbrlen(INT_MAX))
 			return (1);
-		else if (count == ft_nbrlen(INT_MAX))
+		else if (count == ft_nbrlen(INT_MAX) - 1)
 		{
 			if (maxint_passed_checker(guy + j - count))
 				return (1);
@@ -64,6 +63,9 @@ int	guy_checker(char *guy)
 		return (1);
 	else if (guy[j] == '+' && !ft_isdigit(guy[j + 1]))
 		return (1);
+	j += (guy[j] == '+');
+	while (guy[j] == '0')
+		j++;
 	return (guy_checker_internal(guy, j));
 }
 
