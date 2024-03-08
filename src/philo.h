@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:26:56 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:39:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ typedef struct s_philo
  * launched and are revving. ready to drop the clutch and burn some tires!
  * p.s. r.i.p. transmission or something idk i'm not an auto guy
  *
+ * data mtx is used to avoid races while multithreadedly doing stuff to data
+ *
  * entry format:
  * 		./philo <philo N> <T die> <T eat> <T sleep> [meals limit N]
  * 		argv[0] argv[1]   argv[2] argv[3] argv[4]   argv[5]
@@ -94,6 +96,7 @@ struct s_data
 	long	start_simulation;
 	int		end_simulation;
 	int		ready_to_start;
+	t_mtx	data_mtx;
 	t_fork	*forks;
 	t_philo	*philos;
 };
