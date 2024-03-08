@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:40:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 12:08:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 12:23:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int		ft_nbrlen(int x);
 int		ft_isspace(char c);
 //	in src/input_parser_utils_2.c
 int		maxint_passed_checker(char *guy);
+//	in src/ft_atoi.c
+long	ft_atol(char *str);
 
 int	ft_isdigit(char c)
 {
@@ -85,9 +87,15 @@ int	argv_checker(int argc, char **argv)
 
 int	input_parser(t_data *data, int argc, char **argv)
 {
-	if (argc == 5)
-		data->meals_limit_number = -1;
 	if (argv_checker(argc, argv))
 		return (1);
+	if (argc == 5)
+		data->meals_limit_number = -1;
+	else
+		data->meals_limit_number = ft_atol(argv[5]);
+	data->philo_number = ft_atol(argv[1]);
+	data->time_to_die = ft_atol(argv[2]);
+	data->time_to_eat = ft_atol(argv[3]);
+	data->time_to_sleep = ft_atol(argv[4]);
 	return (0);
 }

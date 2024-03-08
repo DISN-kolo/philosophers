@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/10 13:41:10 by akozin            #+#    #+#              #
-#    Updated: 2024/03/08 11:54:55 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/08 12:24:35 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ CFLAGS = -g -Wall -Wextra -Werror
 SRCNAMES = main.c \
 		   input_parser.c \
 		   input_parser_utils.c \
-		   input_parser_utils_2.c
+		   input_parser_utils_2.c \
+		   ft_atol.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/07 15:58:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 12:23:33 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,20 @@ typedef struct s_philo
  *
  * end simulation - whether the sim has ended or not (a philo dies or they
  * all get full)
+ *
+ * entry format:
+ * 		./philo <philo N> <T die> <T eat> <T sleep> [meals limit N]
+ * 		argv[0] argv[1]   argv[2] argv[3] argv[4]   argv[5]
  */
 struct s_data
 {
-	long	philo_number;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	meals_limit_number;
-	long	start_simulation;
-	int		end_simulation;
+	long		philo_number;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		meals_limit_number;
+	long		start_simulation;
+	long		end_simulation;
 	t_fork	*forks;
 	t_philo	*philos;
 };
