@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 16:20:12 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:29:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,15 +63,16 @@ int	data_init(t_data *data)
 	int	i;
 
 	data->end_simulation = 0;
+	data->ready_to_start = 0;
 	if (p_malloc_try(data->philo_number * sizeof (t_philo), &(data->philos)))
 		return (1);
 	if (f_malloc_try(data->philo_number * sizeof (t_fork), &(data->forks)))
-		return (free(data->philos), 1);
+		return (1);
 	i = 0;
 	while (i < data->philo_number)
 	{
 		if (mutex_try(&(data->forks[i].fork), INIT))
-			return (free(data->philos), free(data->forks), 1);
+			return (1);
 		data->forks[i].fork_id = i;
 		i++;
 	}

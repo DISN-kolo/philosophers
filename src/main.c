@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:04:26 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 12:58:38 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:29:21 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,13 @@
 #include <stdio.h>
 
 //	in src/input_parser.c
-int	input_parser(t_data *data, int argc, char **argv);
+int		input_parser(t_data *data, int argc, char **argv);
 //	in src/data_init.c
-int	data_init(t_data *data);
+int		data_init(t_data *data);
+//	in src/dinner.c
+int		dinner_start(t_data *data);
+//	in src/free_bird.c
+void	free_bird_yeah(t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -31,7 +35,8 @@ int	main(int argc, char **argv)
 	if (input_parser(&data, argc, argv))
 		return (1);
 	if (data_init(&data))
-		return (2);
-//	dinner_start(&data);
-	return (0);
+		return (free_bird_yeah(&data), 2);
+	if (dinner_start(&data))
+		return (free_bird_yeah(&data), 3);
+	return (free_bird_yeah(&data), 0);
 }

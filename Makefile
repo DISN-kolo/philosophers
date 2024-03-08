@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/10 13:41:10 by akozin            #+#    #+#              #
-#    Updated: 2024/03/08 15:26:17 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/08 17:02:04 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCNAMES = main.c \
 		   input_parser_utils_2.c \
 		   ft_atol.c \
 		   data_init.c \
-		   safe_funcs.c
+		   safe_funcs.c \
+		   dinner.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)

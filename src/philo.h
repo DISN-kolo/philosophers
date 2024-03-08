@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 15:05:15 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 17:26:56 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ typedef struct s_philo
  * all get full)
  * this is basically a bool
  *
+ * ready to start - self explanatory. indicates that all threads have been
+ * launched and are revving. ready to drop the clutch and burn some tires!
+ * p.s. r.i.p. transmission or something idk i'm not an auto guy
+ *
  * entry format:
  * 		./philo <philo N> <T die> <T eat> <T sleep> [meals limit N]
  * 		argv[0] argv[1]   argv[2] argv[3] argv[4]   argv[5]
@@ -89,6 +93,7 @@ struct s_data
 	long	meals_limit_number;
 	long	start_simulation;
 	int		end_simulation;
+	int		ready_to_start;
 	t_fork	*forks;
 	t_philo	*philos;
 };
