@@ -6,13 +6,28 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 12:23:33 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/08 15:05:15 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+ * all the times are calculated in microseconds, 1 micro-s = 1/1000th of a ms
+ * hence the long variables
+ */
 #ifndef PHILO_H
 # define PHILO_H
 # include <pthread.h>
+
+typedef enum e_opcode
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH
+}	t_opcode;
 
 typedef pthread_mutex_t	t_mtx;
 typedef struct s_data	t_data;
@@ -40,11 +55,11 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	int			id;
-	long		meals_counter;
+	int			meals_counter;
 	int			full;
 	long		last_meal_time;
-	t_fork		*left_fork;
-	t_fork		*right_fork;
+	t_fork		*first_fork;
+	t_fork		*last_fork;
 	pthread_t	thread_id;
 	t_data		*data;
 }	t_philo;
@@ -59,6 +74,7 @@ typedef struct s_philo
  *
  * end simulation - whether the sim has ended or not (a philo dies or they
  * all get full)
+ * this is basically a bool
  *
  * entry format:
  * 		./philo <philo N> <T die> <T eat> <T sleep> [meals limit N]
@@ -66,13 +82,13 @@ typedef struct s_philo
  */
 struct s_data
 {
-	long		philo_number;
-	long		time_to_die;
-	long		time_to_eat;
-	long		time_to_sleep;
-	long		meals_limit_number;
-	long		start_simulation;
-	long		end_simulation;
+	int		philo_number;
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
+	long	meals_limit_number;
+	long	start_simulation;
+	int		end_simulation;
 	t_fork	*forks;
 	t_philo	*philos;
 };
