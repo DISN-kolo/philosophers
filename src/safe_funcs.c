@@ -37,7 +37,6 @@ int	f_malloc_try(size_t bytes, t_fork **what)
  * destroy
  * lock
  * unlock
- * saving this vvvvvvvvvvvvvv for late use lol
  */
 int	mutex_try(t_mtx *mutex, t_opcode opcode)
 {
@@ -52,6 +51,12 @@ int	mutex_try(t_mtx *mutex, t_opcode opcode)
 	return (1);
 }
 
+/*
+ * same for threads:
+ * create
+ * join
+ * destroy
+ */
 int	thread_try(pthread_t *th, void *(*f)(void *), void *data, t_opcode opcode)
 {
 	if (opcode == CREATE)

@@ -14,13 +14,21 @@
 
 //	in src/safe_funcs.c
 int	thread_try(pthread_t *th, void *(*f)(void *), void *data, t_opcode opcode);
+//	in src/set.c
+int	mtx_set_i(t_mtx *mutex, int *dest, int val);
+//	in src/sync_utils.c
+int	wait_all_threads(t_data *data);
 
 void	*dinner_sim(void *d)
 {
 	t_philo *ph;
 
 	ph = (t_philo *)d;
-	wait_all_threads(ph->data); // TODO
+	if (wait_all_threads(ph->data))
+	{
+		printf("wait_all_threads encountered an error.\n"
+			"frankly, i have no idea what to do!\n");
+	}
 	return (0);
 }
 
@@ -58,6 +66,7 @@ int	dinner_start(t_data *data)
 			i++;
 		}
 	}
-	
+	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
+	// TODO
 	return (0);
 }

@@ -16,14 +16,18 @@ MAKE = make
 
 CC = gcc
 CFLAGS = -g -Wall -Wextra -Werror
-SRCNAMES = main.c \
-		   input_parser.c \
-		   input_parser_utils.c \
-		   input_parser_utils_2.c \
+SRCNAMES = data_init.c \
+		   dinner.c \
+		   free_bird.c \
 		   ft_atol.c \
-		   data_init.c \
+		   input_parser.c \
+		   input_parser_utils_2.c \
+		   input_parser_utils.c \
+		   main.c \
 		   safe_funcs.c \
-		   dinner.c
+		   set.c \
+		   sync_utils.c \
+		   utils.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)

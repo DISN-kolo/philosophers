@@ -29,6 +29,13 @@ typedef enum e_opcode
 	DETACH
 }	t_opcode;
 
+typedef enum e_timecode
+{
+	SEC,
+	MILSEC,
+	MICSEC,
+}	t_timecode;
+
 typedef pthread_mutex_t	t_mtx;
 typedef struct s_data	t_data;
 
@@ -100,4 +107,21 @@ struct s_data
 	t_fork	*forks;
 	t_philo	*philos;
 };
+
+/*
+ * errc is used to indicate that we had an error getting the variable
+ * because we can't use the exit function and have to use returns
+ * to show an error occured
+ */
+typedef struct s_get_l
+{
+	int		errc;
+	long	val;
+}	t_get_l;
+
+typedef struct s_get_i
+{
+	int	errc;
+	int	val;
+}	t_get_i;
 #endif
