@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 
 //	in src/safe_funcs.c
 int	thread_try(pthread_t *th, void *(*f)(void *), void *data, t_opcode opcode);
