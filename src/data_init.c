@@ -68,7 +68,7 @@ int	data_init(t_data *data)
 		return (1);
 	if (f_malloc_try(data->philo_number * sizeof (t_fork), &(data->forks)))
 		return (1);
-	if (mutex_try(data->data_mtx, INIT))
+	if (mutex_try(&(data->data_mtx), INIT))
 		return (1);
 	i = 0;
 	while (i < data->philo_number)
