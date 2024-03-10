@@ -30,7 +30,6 @@ void	*dinner_sim(void *d)
 		printf("wait_all_threads encountered an error.\n"
 			"frankly, i have no idea what to do!\n");
 	}
-	return (0);
 }
 
 /*
@@ -58,16 +57,25 @@ int	dinner_start(t_data *data)
 		;// TODO
 	else
 	{
-		i = 0;
-		while (i < data->philo_number)
+		i = -1;
+		while (++i < data->philo_number)
 		{
 			if (thread_try(&data->philos[i].thread_id, dinner_sim,
 					&data->philos[i], CREATE))
 				return (1);
-			i++;
 		}
 	}
-	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
+	data->start_simulation = gettime(MILSEC);
+	if (data->start_simulation == -1)
+		return (1);
+	if (mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1))
+		return (1);
+	i = -1;
+	while (++i < data->philo_number)
+	{
+		if (thread_try(&(data->philos[i].thread_id), 0, 0, JOIN))
+			return (1);
+	}
 	// TODO
 	return (0);
 }
