@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 14:36:00 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 16:35:56 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,16 @@ typedef enum e_timecode
 	MILSEC,
 	MICSEC,
 }	t_timecode;
+
+typedef enum e_status
+{
+	EATING,
+	SLEEPING,
+	THINKING,
+	TAKE_F_FORK,
+	TAKE_S_FORK,
+	DEAD,
+}	t_status;
 
 typedef pthread_mutex_t	t_mtx;
 typedef struct s_data	t_data;
@@ -104,6 +114,7 @@ struct s_data
 	int		end_simulation;
 	int		ready_to_start;
 	t_mtx	data_mtx;
+	t_mtx	write_mtx;
 	t_fork	*forks;
 	t_philo	*philos;
 };

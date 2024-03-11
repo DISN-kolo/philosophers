@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:42:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:44:28 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,31 @@ long	gettime(t_timecode timecode)
 		return (tv.tv_sec + tv.tv_usec / 1e6);
 	else if (time_code == MILSEC)
 		return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
-	else if (time_code == MIRLSEC)
+	else if (time_code == MICSEC)
 		return (tv.tv_sec * 1e6 + tv.tv_usec);
 	else
 		return (-1);
+}
+
+void	pusleep(long usec, t_data *data)
+{
+	long	start;
+	long	elapsed;
+	long	rem;
+
+	start = gettime(MICSEC);
+	while (gettime(MICSEC) - start < usec)
+	{
+		if (sim_finished(data))
+			break ;
+		elapsed = gettime(MICSEC) - start;
+		rem = usec - elapsed;
+		if (rem > 1e3)
+			usleep(rem / 2);
+		else
+		{
+			while (gettime(MICSEC) - start < usec)
+				;
+		}
+	}
 }

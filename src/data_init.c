@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 15:05:05 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:56:50 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	data_init(t_data *data)
 	if (f_malloc_try(data->philo_number * sizeof (t_fork), &(data->forks)))
 		return (1);
 	if (mutex_try(&(data->data_mtx), INIT))
+		return (1);
+	if (mutex_try(&(data->write_mtx), INIT))
 		return (1);
 	i = 0;
 	while (i < data->philo_number)

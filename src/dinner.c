@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 15:24:28 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:01:22 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,36 @@ int		thread_try(pthread_t *th, void *(*f)(void *), void *data,
 			t_opcode opcode);
 //	in src/set.c
 void	mtx_set_i(t_mtx *mutex, int *dest, int val);
+int		sim_finished(t_data *data);
 //	in src/sync_utils.c
 void	wait_all_threads(t_data *data);
+//	in src/utils.c
+void	pusleep(long usec, t_data *data);
+//	in src/write.c
+void	write_status(t_status status, t_philo *ph);
 
+/*
+ * sim plan:
+ * 1. check for fullnes (like in "eaten X times")
+ * 2. eat (if we didn't quit at 1)
+ * 3. eepy time
+ * 4. methinks
+ */
 void	*dinner_sim(void *d)
 {
 	t_philo	*ph;
 
 	ph = (t_philo *)d;
-	wait_all_threads(ph->data)
+	wait_all_threads(ph->data);
+	while (!sim_finished(ph->data))
+	{
+		if (ph->full) // TODO thread safety ??
+			break ;
+		eat(ph); // TODO
+		write_status(SLEEPING, ph);
+		pusleep(ph->data->time_to_sleep, ph->data);
+		think(ph); // TODO
+	}
 }
 
 /*
@@ -51,7 +72,7 @@ int	dinner_start_2(t_data *data)
 	data->start_simulation = gettime(MILSEC);
 	if (data->start_simulation == -1)
 		return (1);
-	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
+	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1); // TODO check without mtx_set but directly
 	i = -1;
 	while (++i < data->philo_number)
 	{

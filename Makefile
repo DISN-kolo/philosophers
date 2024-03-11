@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/10 13:41:10 by akozin            #+#    #+#              #
-#    Updated: 2024/03/08 17:02:04 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/11 17:03:06 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRCNAMES = data_init.c \
 		   safe_funcs.c \
 		   set.c \
 		   sync_utils.c \
-		   utils.c
+		   utils.c \
+		   write.c
 
 SRCS = $(addprefix src/, $(SRCNAMES))
 OBJS = $(SRCS:.c=.o)

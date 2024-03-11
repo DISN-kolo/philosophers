@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 14:41:02 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:30:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ long	mtx_get_l(t_mtx *mutex, long *val)
 	return (ret);
 }
 
-t_get_i	sim_finished(t_data *data)
+int	sim_finished(t_data *data)
 {
 	return (mtx_get_i(&(data->data_mtx), &(data->end_simulation)));
 }
