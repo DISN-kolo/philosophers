@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 15:03:58 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:24:28 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,7 @@ void	*dinner_sim(void *d)
 	t_philo	*ph;
 
 	ph = (t_philo *)d;
-	if (wait_all_threads(ph->data))
-	{
-		printf("wait_all_threads encountered an error.\n"
-			"frankly, i have no idea what to do!\n");
-	}
+	wait_all_threads(ph->data)
 }
 
 /*
@@ -48,6 +44,23 @@ void	*dinner_sim(void *d)
  * 4. join everyone, whatever that means... is this... the sixth house, house
  * dagoth, the tribe unmourned?...
  */
+int	dinner_start_2(t_data *data)
+{
+	int	i;
+
+	data->start_simulation = gettime(MILSEC);
+	if (data->start_simulation == -1)
+		return (1);
+	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
+	i = -1;
+	while (++i < data->philo_number)
+	{
+		if (thread_try(&(data->philos[i].thread_id), 0, 0, JOIN))
+			return (1);
+	}
+	return (0);
+}
+
 int	dinner_start(t_data *data)
 {
 	int	i;
@@ -66,16 +79,8 @@ int	dinner_start(t_data *data)
 				return (1);
 		}
 	}
-	data->start_simulation = gettime(MILSEC);
-	if (data->start_simulation == -1)
+	if (dinner_start_2(data))
 		return (1);
-	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
-	i = -1;
-	while (++i < data->philo_number)
-	{
-		if (thread_try(&(data->philos[i].thread_id), 0, 0, JOIN))
-			return (1);
-	}
 	// TODO
 	return (0);
 }
