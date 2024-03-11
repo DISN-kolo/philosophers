@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:39:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 14:36:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,21 +107,4 @@ struct s_data
 	t_fork	*forks;
 	t_philo	*philos;
 };
-
-/*
- * errc is used to indicate that we had an error getting the variable
- * because we can't use the exit function and have to use returns
- * to show an error occured
- */
-typedef struct s_get_l
-{
-	int		errc;
-	long	val;
-}	t_get_l;
-
-typedef struct s_get_i
-{
-	int	errc;
-	int	val;
-}	t_get_i;
 #endif

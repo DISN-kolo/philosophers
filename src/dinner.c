@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:42:39 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 14:49:24 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include <stdio.h>
 
 //	in src/safe_funcs.c
-int	thread_try(pthread_t *th, void *(*f)(void *), void *data, t_opcode opcode);
+int		thread_try(pthread_t *th, void *(*f)(void *), void *data, t_opcode opcode);
 //	in src/set.c
-int	mtx_set_i(t_mtx *mutex, int *dest, int val);
+void	mtx_set_i(t_mtx *mutex, int *dest, int val);
 //	in src/sync_utils.c
-int	wait_all_threads(t_data *data);
+void	wait_all_threads(t_data *data);
 
 void	*dinner_sim(void *d)
 {
@@ -68,8 +68,7 @@ int	dinner_start(t_data *data)
 	data->start_simulation = gettime(MILSEC);
 	if (data->start_simulation == -1)
 		return (1);
-	if (mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1))
-		return (1);
+	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
 	i = -1;
 	while (++i < data->philo_number)
 	{

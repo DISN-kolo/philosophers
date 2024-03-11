@@ -6,70 +6,43 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:43:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 14:41:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//	in src/safe_funcs.c
-int	mutex_try(t_mtx *mutex, t_opcode opcode)
-
-int	mtx_set_i(t_mtx *mutex, int *dest, int val)
+void	mtx_set_i(t_mtx *mutex, int *dest, int val)
 {
-	if (mutex_try(mutex, LOCK))
-		return (1);
+	pthread_mutex_lock(mutex);
 	*dest = val;
-	if (mutex_try(mutex, UNLOCK))
-		return (1);
-	return (0);
+	pthread_mutex_unlock(mutex);
 }
 
-int	mtx_set_l(t_mtx *mutex, long *dest, long val)
+void	mtx_set_l(t_mtx *mutex, long *dest, long val)
 {
-	if (mutex_try(mutex, LOCK))
-		return (1);
+	pthread_mutex_lock(mutex);
 	*dest = val;
-	if (mutex_try(mutex, UNLOCK))
-		return (1);
-	return (0);
+	pthread_mutex_unlock(mutex);
 }
 
-t_get_i	mtx_get_i(t_mtx *mutex, int *val)
+int	mtx_get_i(t_mtx *mutex, int *val)
 {
-	t_get_i	ret;
+	int	ret;
 
-	if (mutex_try(mutex, LOCK))
-	{
-		ret.errc = 1;
-		return (ret);
-	}
-	ret.val = *val;
-	if (mutex_try(mutex, UNLOCK))
-	{
-		ret.errc = 1;
-		return (ret);
-	}
-	ret.errc = 0;
+	pthread_mutex_lock(mutex);
+	ret = *val;
+	pthread_mutex_unlock(mutex);
 	return (ret);
 }
 
-t_get_l	mtx_get_l(t_mtx *mutex, long *val)
+long	mtx_get_l(t_mtx *mutex, long *val)
 {
-	t_get_l	ret;
+	long	ret;
 
-	if (mutex_try(mutex, LOCK))
-	{
-		ret.errc = 1;
-		return (ret);
-	}
-	ret.val = *val;
-	if (mutex_try(mutex, UNLOCK))
-	{
-		ret.errc = 1;
-		return (ret);
-	}
-	ret.errc = 0;
+	pthread_mutex_lock(mutex);
+	ret = *val;
+	pthread_mutex_unlock(mutex);
 	return (ret);
 }
 

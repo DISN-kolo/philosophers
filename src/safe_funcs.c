@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:54:13 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 16:19:04 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 14:46:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,20 @@ int	f_malloc_try(size_t bytes, t_fork **what)
 		return (1);
 	return (0);
 }
+
 /*
  * safening of mutex ops:
  * init
  * destroy
+ *
+ * we don't need to safe-ify:
  * lock
  * unlock
+ *
+ * if we get an error THERE, we done f-d up big time somewhere. no salvation.
  */
 int	mutex_try(t_mtx *mutex, t_opcode opcode)
 {
-	if (opcode == LOCK)
-		return (pthread_mutex_lock(mutex));
-	if (opcode == UNLOCK)
-		return (pthread_mutex_unlock(mutex));
 	if (opcode == INIT)
 		return (pthread_mutex_init(mutex, 0));
 	if (opcode == DESTROY)
