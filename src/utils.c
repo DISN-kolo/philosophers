@@ -6,12 +6,16 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 15:44:28 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:46:38 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <sys/time.h>
+#include <unistd.h>
+
+//	in src/set.c
+int		sim_finished(t_data *data);
 
 /*
  * because theoretically we can get t = 0 returns, an error shall be indicated
@@ -21,13 +25,13 @@ long	gettime(t_timecode timecode)
 {
 	struct timeval	tv;
 
-	if (!gettimeofday(&tv, 0))
+	if (gettimeofday(&tv, 0))
 		return (-1);
-	if (time_code == SEC)
+	if (timecode == SEC)
 		return (tv.tv_sec + tv.tv_usec / 1e6);
-	else if (time_code == MILSEC)
+	else if (timecode == MILSEC)
 		return (tv.tv_sec * 1e3 + tv.tv_usec / 1e3);
-	else if (time_code == MICSEC)
+	else if (timecode == MICSEC)
 		return (tv.tv_sec * 1e6 + tv.tv_usec);
 	else
 		return (-1);

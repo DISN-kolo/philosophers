@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 16:35:56 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:37:22 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,9 @@ typedef struct s_philo
 	int			full;
 	long		last_meal_time;
 	t_fork		*first_fork;
-	t_fork		*last_fork;
+	t_fork		*second_fork;
 	pthread_t	thread_id;
+	t_mtx		ph_mtx;
 	t_data		*data;
 }	t_philo;
 

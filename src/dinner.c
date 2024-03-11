@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 17:01:22 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:44:30 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,43 @@ int		thread_try(pthread_t *th, void *(*f)(void *), void *data,
 			t_opcode opcode);
 //	in src/set.c
 void	mtx_set_i(t_mtx *mutex, int *dest, int val);
+void	mtx_set_l(t_mtx *mutex, long *dest, long val);
 int		sim_finished(t_data *data);
 //	in src/sync_utils.c
 void	wait_all_threads(t_data *data);
 //	in src/utils.c
 void	pusleep(long usec, t_data *data);
+long	gettime(t_timecode timecode);
 //	in src/write.c
 void	write_status(t_status status, t_philo *ph);
 
+//	TODO????? WHY
+void	think(t_philo *ph)
+{
+	write_status(THINKING, ph);
+}
+
+/*
+ * 1. fork grabbin
+ * 2. eat: write, upd last meal, udp meal count
+ * 3. release forks
+ */
+void	eat(t_philo *ph)
+{
+	pthread_mutex_lock(&ph->first_fork->fork);
+	write_status(TAKE_F_FORK, ph);
+	pthread_mutex_lock(&ph->second_fork->fork);
+	write_status(TAKE_S_FORK, ph);
+	mtx_set_l(&ph->ph_mtx, &ph->last_meal_time, gettime(MILSEC));
+	ph->meals_counter++;
+	write_status(EATING, ph);
+	pusleep(ph->data->time_to_eat, ph->data);
+	if (ph->data->meals_limit_number > 0
+			&& ph->meals_counter == ph->data->meals_limit_number)
+		mtx_set_i(&ph->ph_mtx, &ph->full, 1);
+	pthread_mutex_unlock(&ph->first_fork->fork);
+	pthread_mutex_unlock(&ph->second_fork->fork);
+}
 /*
  * sim plan:
  * 1. check for fullnes (like in "eaten X times")
@@ -43,11 +72,12 @@ void	*dinner_sim(void *d)
 	{
 		if (ph->full) // TODO thread safety ??
 			break ;
-		eat(ph); // TODO
+		eat(ph);
 		write_status(SLEEPING, ph);
 		pusleep(ph->data->time_to_sleep, ph->data);
 		think(ph); // TODO
 	}
+	return (0);
 }
 
 /*
@@ -72,7 +102,8 @@ int	dinner_start_2(t_data *data)
 	data->start_simulation = gettime(MILSEC);
 	if (data->start_simulation == -1)
 		return (1);
-	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1); // TODO check without mtx_set but directly
+//	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1); // TODO check without mtx_set but directly ? or is it ok
+	data->ready_to_start = 1;
 	i = -1;
 	while (++i < data->philo_number)
 	{

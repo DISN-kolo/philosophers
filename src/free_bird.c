@@ -6,11 +6,12 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:10:59 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:12:45 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:38:35 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include "stdlib.h"
 
 void	free_bird_yeah(t_data *data)
 {

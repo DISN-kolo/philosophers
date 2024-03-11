@@ -6,14 +6,17 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:50:55 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 16:55:29 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:40:00 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdio.h>
 
 //	in src/set.c
-int	sim_finished(t_data *data);
+int		sim_finished(t_data *data);
+//	in src/utils.c
+long	gettime(t_timecode timecode);
 
 /*
  * timestamp_ms X has taken a fork

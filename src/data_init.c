@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 15:56:50 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 17:37:55 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ void	assign_forks(t_philo *ph, t_fork *forks, int pos)
 	if (!(ph->id % 2))
 	{
 		ph->first_fork = &forks[pos];
-		ph->last_fork = &forks[(pos + 1) % ph_n];
+		ph->second_fork = &forks[(pos + 1) % ph_n];
 	}
 	else
 	{
 		ph->first_fork = &forks[(pos + 1) % ph_n];
-		ph->last_fork = &forks[pos];
+		ph->second_fork = &forks[pos];
 	}
 }
 
-void	philo_init(t_data *data)
+int	philo_init(t_data *data)
 {
 	int		i;
 	t_philo	*ph;
@@ -53,9 +53,12 @@ void	philo_init(t_data *data)
 		ph->full = 0;
 		ph->meals_counter = 0;
 		ph->data = data;
+		if (mutex_try(&data->philos[i].ph_mtx, INIT))
+			return (1);
 		assign_forks(ph, data->forks, i);
 		i++;
 	}
+	return (0);
 }
 
 int	data_init(t_data *data)
@@ -80,6 +83,7 @@ int	data_init(t_data *data)
 		data->forks[i].fork_id = i;
 		i++;
 	}
-	philo_init(data);
+	if (philo_init(data))
+		return (1);
 	return (0);
 }
