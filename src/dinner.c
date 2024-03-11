@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 14:49:24 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:03:58 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include <stdio.h>
 
 //	in src/safe_funcs.c
-int		thread_try(pthread_t *th, void *(*f)(void *), void *data, t_opcode opcode);
+int		thread_try(pthread_t *th, void *(*f)(void *), void *data,
+			t_opcode opcode);
 //	in src/set.c
 void	mtx_set_i(t_mtx *mutex, int *dest, int val);
 //	in src/sync_utils.c
@@ -22,7 +23,7 @@ void	wait_all_threads(t_data *data);
 
 void	*dinner_sim(void *d)
 {
-	t_philo *ph;
+	t_philo	*ph;
 
 	ph = (t_philo *)d;
 	if (wait_all_threads(ph->data))

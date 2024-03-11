@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:43:32 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:05:05 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	assign_forks(t_philo *ph, t_fork *forks, int pos)
 
 void	philo_init(t_data *data)
 {
-	int	i;
-	t_philo *ph;
+	int		i;
+	t_philo	*ph;
 
 	i = 0;
 	while (i < data->philo_number)
