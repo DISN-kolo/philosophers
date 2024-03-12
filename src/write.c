@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:50:55 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 17:40:00 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:19:02 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void	write_status(t_status status, t_philo *ph)
 	pthread_mutex_lock(&ph->data->write_mtx);
 	if ((status == TAKE_F_FORK || status == TAKE_S_FORK)
 			&& !sim_finished(ph->data))
-		printf("%6ld %d has taken a fork\n", elapsed, ph->id);
+		printf("%ld %d has taken a fork\n", elapsed, ph->id);
 	else if (status == EATING && !sim_finished(ph->data))
-		printf("%6ld %d is eating\n", elapsed, ph->id);
+		printf("%ld %d is eating\n", elapsed, ph->id);
 	else if (status == SLEEPING && !sim_finished(ph->data))
-		printf("%6ld %d is sleeping\n", elapsed, ph->id);
+		printf("%ld %d is sleeping\n", elapsed, ph->id);
 	else if (status == THINKING && !sim_finished(ph->data))
-		printf("%6ld %d is thinking\n", elapsed, ph->id);
+		printf("%ld %d is thinking\n", elapsed, ph->id);
 	else if (status == DEAD)
-		printf("%6ld %d died\n", elapsed, ph->id);
+		printf("%ld %d died\n", elapsed, ph->id);
 	pthread_mutex_unlock(&ph->data->write_mtx);
 }

@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/12 15:52:54 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:21:49 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	write_status(t_status status, t_philo *ph);
 void	*monitor_f(void *d);
 
 //	TODO????? WHY
+//	because some philos think too little :)
 void	think(t_philo *ph)
 {
 	write_status(THINKING, ph);
