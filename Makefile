@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/10 13:41:10 by akozin            #+#    #+#              #
-#    Updated: 2024/03/12 13:53:52 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/12 18:22:34 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = philo
 MAKE = make
 
 CC = gcc
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror# -g -fsanitize=thread
 SRCNAMES = data_init.c \
 		   dinner.c \
 		   free_bird.c \
@@ -41,10 +41,10 @@ RM = rm -f
 all:		$(NAME)
 
 $(NAME):	$(OBJS)
-	$(CC) $(OBJS) -o $(NAME) #-fsanitize=address
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 $(OBJS):	%.o: %.c Makefile
-	$(CC) $(CFLAGS) -MMD -MP -c -o $@ $< #-fsanitize=address
+	$(CC) $(CFLAGS) -MMD -MP -c -o $@ $<
 
 -include $(DFILES)
 
