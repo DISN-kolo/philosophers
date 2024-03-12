@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 12:53:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 17:37:55 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 13:12:16 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	assign_forks(t_philo *ph, t_fork *forks, int pos)
 {
 	int	ph_n;
 
-	ph_n = ph->data->philo_number;
+	ph_n = ph->data->philo_n;
 	if (!(ph->id % 2))
 	{
 		ph->first_fork = &forks[pos];
@@ -46,7 +46,7 @@ int	philo_init(t_data *data)
 	t_philo	*ph;
 
 	i = 0;
-	while (i < data->philo_number)
+	while (i < data->philo_n)
 	{
 		ph = &(data->philos[i]);
 		ph->id = i + 1;
@@ -67,16 +67,17 @@ int	data_init(t_data *data)
 
 	data->end_simulation = 0;
 	data->ready_to_start = 0;
-	if (p_malloc_try(data->philo_number * sizeof (t_philo), &(data->philos)))
+	data->th_run_n = 0;
+	if (p_malloc_try(data->philo_n * sizeof (t_philo), &(data->philos)))
 		return (1);
-	if (f_malloc_try(data->philo_number * sizeof (t_fork), &(data->forks)))
+	if (f_malloc_try(data->philo_n * sizeof (t_fork), &(data->forks)))
 		return (1);
 	if (mutex_try(&(data->data_mtx), INIT))
 		return (1);
 	if (mutex_try(&(data->write_mtx), INIT))
 		return (1);
 	i = 0;
-	while (i < data->philo_number)
+	while (i < data->philo_n)
 	{
 		if (mutex_try(&(data->forks[i].fork), INIT))
 			return (1);

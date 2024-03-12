@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 17:44:30 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 13:49:09 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,18 @@ int		thread_try(pthread_t *th, void *(*f)(void *), void *data,
 void	mtx_set_i(t_mtx *mutex, int *dest, int val);
 void	mtx_set_l(t_mtx *mutex, long *dest, long val);
 int		sim_finished(t_data *data);
+//	in src/set2.c
+void	mtx_inc_i(t_mtx *mutex, int *val);
 //	in src/sync_utils.c
 void	wait_all_threads(t_data *data);
 //	in src/utils.c
 void	pusleep(long usec, t_data *data);
 long	gettime(t_timecode timecode);
+void	*alone(void *d);
 //	in src/write.c
 void	write_status(t_status status, t_philo *ph);
+//	in src/monitor.c
+void	*monitor_f(void *d);
 
 //	TODO????? WHY
 void	think(t_philo *ph)
@@ -35,6 +40,7 @@ void	think(t_philo *ph)
 }
 
 /*
+ * eating =)
  * 1. fork grabbin
  * 2. eat: write, upd last meal, udp meal count
  * 3. release forks
@@ -57,6 +63,7 @@ void	eat(t_philo *ph)
 }
 /*
  * sim plan:
+ * 0. wait for everyone to be running (and increase the running counter)
  * 1. check for fullnes (like in "eaten X times")
  * 2. eat (if we didn't quit at 1)
  * 3. eepy time
@@ -68,6 +75,8 @@ void	*dinner_sim(void *d)
 
 	ph = (t_philo *)d;
 	wait_all_threads(ph->data);
+	mtx_set_l(&(ph->data->data_mtx), &(ph->last_meal_time), gettime(MILSEC));
+	mtx_inc_i(&(ph->data->data_mtx), &(ph->data->th_run_n));
 	while (!sim_finished(ph->data))
 	{
 		if (ph->full) // TODO thread safety ??
@@ -86,6 +95,7 @@ void	*dinner_sim(void *d)
  * is there only 1 philo?
  * call a quick simple func to make him quickly die (lil bro only got 1 fork)
  * alright, but the real deal?
+ * 0. create a monitor thread
  * 1. create all philo threads
  * 2. create an aux thread that will be checking up on our philos to see
  * whether or not there're any dead ones
@@ -99,13 +109,15 @@ int	dinner_start_2(t_data *data)
 {
 	int	i;
 
+	if (thread_try(&(data->monitor), monitor_f, data, CREATE))	// TODO
+		return (1);
 	data->start_simulation = gettime(MILSEC);
 	if (data->start_simulation == -1)
 		return (1);
-//	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1); // TODO check without mtx_set but directly ? or is it ok
-	data->ready_to_start = 1;
+	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1); // TODO check without mtx_set but directly ? or is it ok
+//	data->ready_to_start = 1;
 	i = -1;
-	while (++i < data->philo_number)
+	while (++i < data->philo_n)
 	{
 		if (thread_try(&(data->philos[i].thread_id), 0, 0, JOIN))
 			return (1);
@@ -119,12 +131,16 @@ int	dinner_start(t_data *data)
 
 	if (data->meals_limit_number == 0)
 		return (0);
-	if (data->philo_number == 1)
-		;// TODO
+	if (data->philo_n == 1)
+	{
+		if (thread_try(&data->philos[0].thread_id, alone,
+				&data->philos[0], CREATE))
+			return (1);
+	}
 	else
 	{
 		i = -1;
-		while (++i < data->philo_number)
+		while (++i < data->philo_n)
 		{
 			if (thread_try(&data->philos[i].thread_id, dinner_sim,
 					&data->philos[i], CREATE))

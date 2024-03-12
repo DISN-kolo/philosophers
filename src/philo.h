@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:22:27 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/11 17:37:22 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 13:09:34 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,23 +100,29 @@ typedef struct s_philo
  *
  * data mtx is used to avoid races while multithreadedly doing stuff to data
  *
+ * monitor thread is.. the monitor..... thread..............
+ *
+ * th run n is the threads running number. pretty self-explanatory
+ *
  * entry format:
  * 		./philo <philo N> <T die> <T eat> <T sleep> [meals limit N]
  * 		argv[0] argv[1]   argv[2] argv[3] argv[4]   argv[5]
  */
 struct s_data
 {
-	int		philo_number;
-	long	time_to_die;
-	long	time_to_eat;
-	long	time_to_sleep;
-	long	meals_limit_number;
-	long	start_simulation;
-	int		end_simulation;
-	int		ready_to_start;
-	t_mtx	data_mtx;
-	t_mtx	write_mtx;
-	t_fork	*forks;
-	t_philo	*philos;
+	int			philo_n;
+	int			th_run_n;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		meals_limit_number;
+	long		start_simulation;
+	int			end_simulation;
+	int			ready_to_start;
+	t_mtx		data_mtx;
+	t_mtx		write_mtx;
+	t_fork		*forks;
+	t_philo		*philos;
+	pthread_t	monitor;
 };
 #endif

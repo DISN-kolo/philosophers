@@ -6,7 +6,7 @@
 #    By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/10 13:41:10 by akozin            #+#    #+#              #
-#    Updated: 2024/03/11 17:03:06 by akozin           ###   ########.fr        #
+#    Updated: 2024/03/12 13:53:52 by akozin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,10 @@ SRCNAMES = data_init.c \
 		   input_parser_utils_2.c \
 		   input_parser_utils.c \
 		   main.c \
+		   monitor.c \
 		   safe_funcs.c \
 		   set.c \
+		   set_2.c \
 		   sync_utils.c \
 		   utils.c \
 		   write.c

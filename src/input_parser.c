@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 14:40:05 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 12:28:43 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 13:11:26 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	input_parser(t_data *data, int argc, char **argv)
 		data->meals_limit_number = -1;
 	else
 		data->meals_limit_number = ft_atol(argv[5]);
-	data->philo_number = ft_atol(argv[1]);
+	data->philo_n = ft_atol(argv[1]);
 	data->time_to_die = ft_atol(argv[2]) * 1e3;
 	data->time_to_eat = ft_atol(argv[3]) * 1e3;
 	data->time_to_sleep = ft_atol(argv[4]) * 1e3;
