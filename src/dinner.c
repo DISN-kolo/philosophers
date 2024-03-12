@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/12 17:08:44 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 18:06:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ void	eat(t_philo *ph)
 	write_status(EATING, ph);
 	pusleep(ph->data->time_to_eat, ph->data);
 	if (ph->data->meals_limit_number > 0
-			&& ph->meals_counter == ph->data->meals_limit_number)
+		&& ph->meals_counter == ph->data->meals_limit_number)
 		mtx_set_i(&ph->ph_mtx, &ph->full, 1);
 	pthread_mutex_unlock(&ph->first_fork->fork);
 	pthread_mutex_unlock(&ph->second_fork->fork);
 }
+
 /*
  * sim plan:
  * 0. wait for everyone to be running (and increase the running counter)
@@ -98,15 +99,15 @@ void	*dinner_sim(void *d)
 	wait_all_threads(ph->data);
 	mtx_set_l(&(ph->data->data_mtx), &(ph->last_meal_time), gettime(MILSEC));
 	mtx_inc_i(&(ph->data->data_mtx), &(ph->data->th_run_n));
-	desync(ph); // TODO
+	desync(ph);
 	while (!sim_finished(ph->data))
 	{
-		if (ph->full) // TODO thread safety ??
+		if (ph->full)
 			break ;
 		eat(ph);
 		write_status(SLEEPING, ph);
 		pusleep(ph->data->time_to_sleep, ph->data);
-		think(ph, 0); // TODO
+		think(ph, 0);
 	}
 	return (0);
 }

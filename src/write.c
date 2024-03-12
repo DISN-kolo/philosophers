@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:50:55 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/12 18:03:10 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 18:06:10 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	write_status(t_status status, t_philo *ph)
 	pthread_mutex_lock(&ph->data->write_mtx);
 	elapsed = gettime(MILSEC) - ph->data->start_simulation;
 	if ((status == TAKE_F_FORK || status == TAKE_S_FORK)
-			&& !sim_finished(ph->data))
+		&& !sim_finished(ph->data))
 		printf("%ld %d has taken a fork\n", elapsed, ph->id);
 	else if (status == EATING && !sim_finished(ph->data))
 		printf("%ld %d is eating\n", elapsed, ph->id);
