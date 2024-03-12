@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/12 13:49:09 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 15:52:54 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,19 +109,21 @@ int	dinner_start_2(t_data *data)
 {
 	int	i;
 
-	if (thread_try(&(data->monitor), monitor_f, data, CREATE))	// TODO
+	if (thread_try(&(data->monitor), monitor_f, data, CREATE))
 		return (1);
 	data->start_simulation = gettime(MILSEC);
 	if (data->start_simulation == -1)
 		return (1);
-	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1); // TODO check without mtx_set but directly ? or is it ok
-//	data->ready_to_start = 1;
+	mtx_set_i(&(data->data_mtx), &(data->ready_to_start), 1);
 	i = -1;
 	while (++i < data->philo_n)
 	{
 		if (thread_try(&(data->philos[i].thread_id), 0, 0, JOIN))
 			return (1);
 	}
+	mtx_set_i(&(data->data_mtx), &(data->end_simulation), 1);
+	if (thread_try(&(data->monitor), 0, 0, JOIN))
+		return (1);
 	return (0);
 }
 
@@ -149,6 +151,5 @@ int	dinner_start(t_data *data)
 	}
 	if (dinner_start_2(data))
 		return (1);
-	// TODO
 	return (0);
 }

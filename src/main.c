@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 13:04:26 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/08 17:29:21 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 16:12:48 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		data_init(t_data *data);
 int		dinner_start(t_data *data);
 //	in src/free_bird.c
 void	free_bird_yeah(t_data *data);
+void	clean(t_data *data);
 
 int	main(int argc, char **argv)
 {
@@ -37,6 +38,6 @@ int	main(int argc, char **argv)
 	if (data_init(&data))
 		return (free_bird_yeah(&data), 2);
 	if (dinner_start(&data))
-		return (free_bird_yeah(&data), 3);
-	return (free_bird_yeah(&data), 0);
+		return (clean(&data), 3);
+	return (clean(&data), 0);
 }

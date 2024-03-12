@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:40:23 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/12 14:01:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 15:27:45 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@ long	gettime(t_timecode timecode);
 //	in src/write.c
 void	write_status(t_status status, t_philo *ph);
 
+/*
+ * ttd = timetodie
+ * checks if elalapsed passed the ttd mark
+ */
 int	philo_died(t_philo *ph)
 {
 	long	elap;
