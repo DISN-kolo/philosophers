@@ -6,7 +6,7 @@
 /*   By: akozin <akozin@student.42barcelona.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/08 17:01:54 by akozin            #+#    #+#             */
-/*   Updated: 2024/03/12 16:21:49 by akozin           ###   ########.fr       */
+/*   Updated: 2024/03/12 17:08:44 by akozin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int		sim_finished(t_data *data);
 void	mtx_inc_i(t_mtx *mutex, int *val);
 //	in src/sync_utils.c
 void	wait_all_threads(t_data *data);
+void	desync(t_philo *ph);
 //	in src/utils.c
 void	pusleep(long usec, t_data *data);
 long	gettime(t_timecode timecode);
@@ -33,11 +34,30 @@ void	write_status(t_status status, t_philo *ph);
 //	in src/monitor.c
 void	*monitor_f(void *d);
 
-//	TODO????? WHY
-//	because some philos think too little :)
-void	think(t_philo *ph)
+/*
+ * the formula? watch how philo visualizer performs
+ *
+ * sometimes a fella can wake up and snatch a fork from a thinking dude
+ * not fair! so we set an available "hmm" time for everyone which would
+ * schedule everyone to leave forks in peace if they don't ABSOLUTELY
+ * need to eat. also we should avoid "everybody's thinking" situations probs
+ */
+void	think(t_philo *ph, int before_sim)
 {
-	write_status(THINKING, ph);
+	long	time_ea;
+	long	time_sl;
+	long	time_th;
+
+	if (!before_sim)
+		write_status(THINKING, ph);
+	if (ph->data->philo_n % 2 == 0)
+		return ;
+	time_ea = ph->data->time_to_eat;
+	time_sl = ph->data->time_to_sleep;
+	time_th = 2 * time_ea - time_sl;
+	if (time_th < 0)
+		time_th = 0;
+	pusleep(time_th * 0.2, ph->data);
 }
 
 /*
@@ -78,6 +98,7 @@ void	*dinner_sim(void *d)
 	wait_all_threads(ph->data);
 	mtx_set_l(&(ph->data->data_mtx), &(ph->last_meal_time), gettime(MILSEC));
 	mtx_inc_i(&(ph->data->data_mtx), &(ph->data->th_run_n));
+	desync(ph); // TODO
 	while (!sim_finished(ph->data))
 	{
 		if (ph->full) // TODO thread safety ??
@@ -85,7 +106,7 @@ void	*dinner_sim(void *d)
 		eat(ph);
 		write_status(SLEEPING, ph);
 		pusleep(ph->data->time_to_sleep, ph->data);
-		think(ph); // TODO
+		think(ph, 0); // TODO
 	}
 	return (0);
 }
